@@ -1,17 +1,21 @@
 <?php
-    //print_r($_SERVER);
-    // print_r($_GET);
-    // print_r($POST);
+    /*
+        Session are stored in the server
+        so it can be used across multipie pages
+    */
 
-    // if (isset($_GET['name'])) {
-    //     echo $_GET['name'];
-    // };
-    // $email = htmlspecialchars($_POST['email']) ?? '';
-    //another way
-    $email = filter_var($_POST['email'], FILTER_SANITIZE_SPECIAL_CHARS);
-    $password = htmlspecialchars($_POST['password']) ?? '';
-    echo $email;
-    echo $password;
+    session_start();
+    if (isset($_POST['submit'])) {
+        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_SPECIAL_CHARS);
+        $password = $_POST['password'];
+        if ($email == 'vuongdq@gmail.com' && $password == '123456') {
+            $_SESSION['email'] = $email;
+            header('location: dashboard.php');
+        }else {
+            echo "Incorrect email or password!";
+        };
+    };
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,8 +26,8 @@
     <title>Document</title>
 </head>
 <body>
+    <h1>Login to your account</h1>
     <form action="<?php echo $_SERVER['PHP_SELF']?>" method="POST">
-        <h1>Login to your account</h1>
         <div>
             <label for="email">Email: </label>
             <input type="text" name="email" id="">
